@@ -28,11 +28,7 @@ define(
     function (IdentityProvider) {
 
         describe("IdentityProvider", function () {
-            var mockQ, mockCallback, provider;
-
-            function calledBack() {
-                return mockCallback.calls.length > 0;
-            }
+            var mockQ, provider;
 
             beforeEach(function () {
                 mockCallback = jasmine.createSpy('callback');
@@ -45,11 +41,8 @@ define(
             });
 
             it("provides an undefined user", function () {
-                provider.getUser().then(mockCallback);
-
-                waitsFor(calledBack);
-                runs(function () {
-                    expect(mockCallback).toHaveBeenCalledWith(undefined);
+                return provider.getUser().then(function (user) {
+                    expect(user).toBe(undefined);
                 });
             });
 
